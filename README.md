@@ -27,7 +27,7 @@ TODO
 
 Full help:
 ```bat
-nyaav2 -h
+TODO
 ```
 
 As a module (Upload):
@@ -52,7 +52,17 @@ print(ret)
 ```
 
 As a module (Search):
-```
-TODO
+```py
+import pyNyaav2
+
+UNAME = 'User'
+PASSW = 'SecretPass'
+KEYWORD = 'overlord s3'
+CATEG = 1_2 #This is Anime English-translated, you can also type 'anime_eng', scroll to the very bottom for reference
+PAGE = 1
+
+ret = pyNyaav2.SearchTorrent(username=UNAME, password=PASSW, keyword=KEYWORD, category=CATEG, page=PAGE)
+
+print(ret)
 ```
 Category List: https://gist.github.com/noaione/2a74eb362588dcc4edc8684e9c270a8c

@@ -1,9 +1,9 @@
 from os.path import splitext, dirname
 import requests
-from pyNyaav2.common import UPLOAD_V2_URL, Nyaav2Exception
+from pyNyaav2.common import UPLOAD_V2_URL, Nyaav2Exception, CATEGORY_LIST
 import json
 
-def set_opts(username, password, torrent, category=1_2, name=None, information=None, description=None, anonymous=False, hidden=False, complete=False, remake=False, trusted=False):
+def set_opts(username=None, password=None, torrent=None, category=1_2, name=None, information=None, description=None, anonymous=False, hidden=False, complete=False, remake=False, trusted=False):
     """
     Set options before uploading to Nyaa.si
     ##################################################
@@ -20,6 +20,14 @@ def set_opts(username, password, torrent, category=1_2, name=None, information=N
     trusted (True/False): Use trusted, if you're account trusted (it will return error if you're not).
     """
     # Parse if it none
+
+    if username is None:
+        raise Nyaav2Exception('set_opts: \'username\' cannot be empty')
+    if password is None:
+        raise Nyaav2Exception('set_opts: \'password\' cannot be empty')
+    if torrent is None:
+        raise Nyaav2Exception('set_opts: \'torrent\' cannot be empty')
+
     if name is None:
         name = torrent
         fulldir = dirname(torrent)
@@ -37,31 +45,7 @@ def set_opts(username, password, torrent, category=1_2, name=None, information=N
         raise Nyaav2Exception("set_opts: trusted must be a bool ('True' or 'False')")
 
     if isinstance(category, str):
-        category_type = {
-            'amv': '1_1',
-            'anime_eng': '1_2',
-            'anime_non-eng': '1_3',
-            'anime_raw': '1_4',
-
-            'audio_lossless': '2_1',
-            'audio_lossy': '2_2',
-
-            'books_eng': '3_1',
-            'books_non-eng': '3_2',
-            'books_raw': '3_3',
-            
-            'la_eng': '4_1',
-            'la_idolpv': '4_2',
-            'la_non-eng': '4_3',
-            'la_raw': '4_4',
-
-            'pics_graphics': '5_1',
-            'pics_photos': '5_2',
-
-            'sw_apps': '6_1',
-            'sw_games': '6_2'
-        }
-        category = category_type[category]
+        category = CATEGORY_LIST(category)
     
     elif isinstance(category, int):
         category = str(category)
@@ -87,6 +71,11 @@ def set_opts(username, password, torrent, category=1_2, name=None, information=N
     return optsBuild
 
 def UploadTorrent(options=None):
+    """
+    Upload torrent to Nyaa.si using defined options before
+    ##################################################
+    options: dictionary of options from 'set_opts'
+    """
     if options is None:
         raise Nyaav2Exception('UploadTorrent: Options are not Specified')
 
