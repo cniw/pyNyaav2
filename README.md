@@ -1,5 +1,5 @@
 # pyNyaav2 - A Nyaa v2 API wrapper.
-#### With no extra modules, and easy use
+#### Easy to use API wrapper for anyone.
 
 ### Installation
 ```bat
