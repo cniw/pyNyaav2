@@ -20,6 +20,7 @@ keywords='nyaa, torrent, api, python, nyaa.si',
 description='Python Nyaav2 API Wrapper',
 long_description=longdesc(),
 url='https://github.com/noaione/pyNyaav2',
+download_url='https://github.com/noaione/pyNyaav2/tarball/master',
 include_package_data=True,
 zip_safe=False,
 
