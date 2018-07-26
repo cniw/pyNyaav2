@@ -36,6 +36,7 @@ import pyNyaav2
 
 UNAME = 'User'
 PASSW = 'SecretPass'
+CATEG = 1_2 #This is Anime English-translated, you can also type 'anime_eng', scroll to the very bottom for reference
 
 description = """
 **My test upload to Nyaa.si**
@@ -43,7 +44,7 @@ description = """
 Note: This is an automated upload by [pyNyaav2](https://github.com/noaione/pyNyaav2)
 """
 
-opts = pyNyaav2.set_opts(username=UNAME, password=PASSW, torrent='mystuff.torrent', category=1_2, name='mystuff', information='https://noaione.github.io', description=description, anonymous=True, hidden=False, complete=False, remake=False, trusted=False)
+opts = pyNyaav2.set_opts(username=UNAME, password=PASSW, torrent='mystuff.torrent', category=CATEG, name='mystuff', information='https://noaione.github.io', description=description, anonymous=True, hidden=False, complete=False, remake=False, trusted=False)
 
 ret = pyNyaav2.UploadTorrent(opts)
 
