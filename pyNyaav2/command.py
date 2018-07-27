@@ -5,7 +5,7 @@ from .upload import set_opts, UploadTorrent
 from .search import SearchTorrent
 
 def main():
-    parser = argparse.ArgumentParser(prog='pyNyaav2')
+    parser = argparse.ArgumentParser(prog='nyaav2')
     parser.add_argument('--mode', '-m', required=True, default='search', const='search', nargs='?', choices=['search', 'upload'])
     parser.add_argument('--username', '-U' , required=True, dest='user',help='Your username')
     parser.add_argument('--password', '-P', required=True, dest='passw', help='Your password')
