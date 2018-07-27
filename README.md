@@ -63,6 +63,6 @@ PAGE = 1
 
 ret = pyNyaav2.SearchTorrent(username=UNAME, password=PASSW, keyword=KEYWORD, category=CATEG, page=PAGE)
 
-print(ret)
+print(ret[0])
 ```
 Category List: https://gist.github.com/noaione/2a74eb362588dcc4edc8684e9c270a8c
