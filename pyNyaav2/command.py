@@ -1,5 +1,7 @@
 import argparse
 import os, sys
+import json
+
 from .common import Nyaav2Exception
 from .upload import set_opts, UploadTorrent
 from .search import SearchTorrent
@@ -26,14 +28,22 @@ def main():
     if args.mode == 'search':
         print('e')
     elif args.mode == 'upload':
-        if str(args.torkey[8:]) != '.torrent':
+        if os.path.splitext(args.torkey)[1] != '.torrent':
             raise Nyaav2Exception('Upload mode choosen but input argument not a torrent files')
 
         print('@@ Creating options')
         options = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=args.desc, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
 
-        ret = UploadTorrent(options=options)
-        print(ret)
+        re = json.dumps(UploadTorrent(options=options))
+
+        hashhex = re['hash']
+        torid = re['id']
+        name = re['name']
+        url = re['url']
+
+        text = f'!! Torrent Successfully Uploaded\n@ Name: {name}\n@ ID: {torid}\n@ URL: {url}\n@ Torrent hash: {hashhex}'
+        print(text)
+        
 
 if __name__=='__main__':
     main()

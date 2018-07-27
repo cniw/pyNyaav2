@@ -30,8 +30,11 @@ def set_opts(username=None, password=None, torrent=None, category=1_2, name=None
 
     if name is None:
         name = torrent
-        fulldir = dirname(torrent)
-        name = name.replace(fulldir, '')[1:][:-8]
+        fulldir = dirname(name)
+        if fulldir == '':
+            name = name[:8]
+        elif fulldir != '':
+            name = name.replace(fulldir, '')[1:][:-8]
     information = 'Uploaded using pyNyaav2' if information is None else information
     description = '' if description is None else description
 
