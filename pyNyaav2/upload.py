@@ -1,6 +1,6 @@
 from os.path import splitext, dirname
 import requests
-from pyNyaav2.common import UPLOAD_V2_URL, Nyaav2Exception, CATEGORY_LIST
+from .common import UPLOAD_V2_URL, Nyaav2Exception, CATEGORY_LIST
 import json
 
 def set_opts(username=None, password=None, torrent=None, category=1_2, name=None, information=None, description=None, anonymous=False, hidden=False, complete=False, remake=False, trusted=False):
@@ -31,7 +31,7 @@ def set_opts(username=None, password=None, torrent=None, category=1_2, name=None
     if name is None:
         name = torrent
         fulldir = dirname(torrent)
-        name = name.replace(fulldir, '')[1:]
+        name = name.replace(fulldir, '')[1:][:-8]
     information = 'Uploaded using pyNyaav2' if information is None else information
     description = '' if description is None else description
 

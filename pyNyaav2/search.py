@@ -1,4 +1,4 @@
-from pyNyaav2.common import INFO_URL, Nyaav2Exception, SEARCH_URL, CATEGORY_LIST
+from .common import INFO_URL, Nyaav2Exception, SEARCH_URL, CATEGORY_LIST
 from bs4 import BeautifulSoup
 import requests
 from requests.auth import HTTPBasicAuth
@@ -30,13 +30,13 @@ def SearchTorrent(username=None, password=None, keyword=None, category='all', pa
         dl_link = query['download_link']
         
         r2 = requests.get(f'https://nyaa.si/api/info/{tor_id}', auth=HTTPBasicAuth(username, password))
-        if r.status_code != 200:
-            if r.status_code == 403:
-                raise Nyaav2Exception('SearchTorrent: Bad authentication, please fix it.')
-            elif r.status_code == 400:
-                print(r.text)
-                raise Nyaav2Exception('SearchTorrent: Something went wrong')
         r2j = json.loads(r2.text)
+        if r2.status_code != 200:
+            if r2.status_code == 403:
+                raise Nyaav2Exception('SearchTorrent: Bad authentication, please fix it.')
+            elif r2.status_code == 400:
+                print(r.text)
+                raise Nyaav2Exception('SearchTorrent: Something went wrong\n{}'.format(r2j['errors'][0]))
         
         name = r2j['name']
         create_date = r2j['creation_date']

@@ -1,8 +1,8 @@
 BASE_APIURL = 'https://nyaa.si/api'
 BASE_URL = 'https://nyaa.si'
 
-UPLOAD_V2_URL = f'{BASE_URL}/v2/upload'
-INFO_URL = f'{BASE_URL}/info'
+UPLOAD_V2_URL = f'{BASE_APIURL}/v2/upload'
+INFO_URL = f'{BASE_APIURL}/info'
 
 def CATEGORY_LIST(category):
     category_type = {
