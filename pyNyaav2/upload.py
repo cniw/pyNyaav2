@@ -32,7 +32,7 @@ def set_opts(username=None, password=None, torrent=None, category=1_2, name=None
         name = torrent
         fulldir = dirname(name)
         if fulldir == '':
-            name = name[:8]
+            name = name[:-8]
         elif fulldir != '':
             name = name.replace(fulldir, '')[1:][:-8]
     information = 'Uploaded using pyNyaav2' if information is None else information
