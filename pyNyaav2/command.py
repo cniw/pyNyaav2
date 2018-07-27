@@ -26,7 +26,38 @@ def main():
     args = parser.parse_args()
 
     if args.mode == 'search':
-        print('e')
+        print('@@ Searching torrent\n')
+        search = SearchTorrent(args.user, args.passw, args.torkey, args.cname)
+        print('@@ Torrent searced, now parsing\n@@ Total: {}'.format(str(len(search))))
+        print('## Will be showing until 5 torrent only')
+        limit = 0
+        parsedQuery = []
+        while limit < 5:
+            if not limit < 5:
+                break
+            for query in search:
+                NAME = query['name']
+                ID = query['id']
+                SUBMIT = query['submitter']
+                if SUBMIT is None:
+                    SUBMIT = 'Anonymous'
+                else:
+                    pass
+                CREADATE = query['creation']
+                SIZE = query['filesize']
+                CATEG = query['category'] + ' (' + query['category_id'] + ')'
+                STATS = 'Seeders: {} || Leechers: {} || Completed: {}'.format(query['seeders'], query['leechers'], query['completed'])
+                DLLINK = 'https://nyaa.si{}'.format(query['download_link'])
+                TORURL = query['url']
+                TORHASH = query['hash']
+
+                temptext = '@ Name: {}\n@ ID: {}\n@ Size: {}\n@ Submitter: {}\n@ Category: {}\n@ Stats: {}\n@ Download Link: {}\n@ URL: {}\n@ Torrent hash: {}\n@ Creation Date: {}\n'.format(NAME, ID, SIZE, SUBMIT, CATEG, STATS, DLLINK, TORURL, TORHASH, CREADATE)
+                parsedQuery.append(temptext)
+                limit += 1
+        print('@@ Torrent parsed:\n')
+
+        text = '\n'.join(parsedQuery)
+        print(text)
     elif args.mode == 'upload':
         if os.path.splitext(args.torkey)[1] != '.torrent':
             raise Nyaav2Exception('Upload mode choosen but input argument not a torrent files')
