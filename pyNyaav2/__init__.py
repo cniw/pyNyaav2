@@ -3,7 +3,7 @@
 
 __version__ = '0.1.1'
 __author__ = 'noaione'
-__email__ = 'aimanmaharana10@gmail.com'
+__email__ = 'noaione0809@gmail.com'
 
 from .upload import *
 from .search import *
