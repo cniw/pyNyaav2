@@ -17,7 +17,7 @@ def main():
     uploadmode = parser.add_argument_group('Upload Arguments')
     uploadmode.add_argument('--name', dest='name', required=False, action='store', default=None, help='Torrent name')
     uploadmode.add_argument('--information', dest='info', required=False, action='store', default=None, help='Torrent information (website, etc)')
-    uploadmode.add_argument('--description', dest='desc', required=False, action='store', default=None, help='Torrent description')
+    uploadmode.add_argument('--description', dest='desc', required=False, action='store', default=None, help='Torrent description (can be a file too)')
     uploadmode.add_argument('--anonymous', '-anon', dest='is_anon', action='store_true', required=False, default=False, help='Set torrent as an anonymous torrent')
     uploadmode.add_argument('--hidden', dest='is_hidden', action='store_true', required=False, default=False, help='Set torrent to hidden')
     uploadmode.add_argument('--remake', dest='is_remake', action='store_true', required=False, default=False, help='Set torrent as remake torrent')
@@ -31,10 +31,17 @@ def main():
         if os.path.splitext(args.torkey)[1] != '.torrent':
             raise Nyaav2Exception('Upload mode choosen but input argument not a torrent files')
 
-        print('@@ Creating options')
-        options = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=args.desc, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
+        if args.desc is not None:
+            if os.path.isfile(args.desc):
+                with open(args.desc, 'rb') as fdesc:
+                    descr = str(fdesc.read())
+            else:
+                descr = args.desc
 
-        re = json.dumps(UploadTorrent(options=options))
+        print('@@ Creating options')
+        options = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
+
+        re = json.loads(UploadTorrent(options=options))
 
         hashhex = re['hash']
         torid = re['id']
