@@ -32,9 +32,9 @@ def main():
             raise Nyaav2Exception('Upload mode choosen but input argument not a torrent files')
 
         print('@@ Creating options')
-        options = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=args.desc, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
+        OPTS_UP = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=args.desc, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
 
-        re = json.dumps(UploadTorrent(options=options))
+        re = json.loads(UploadTorrent(options=OPTS_UP))
 
         hashhex = re['hash']
         torid = re['id']
