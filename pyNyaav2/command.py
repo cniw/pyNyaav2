@@ -39,15 +39,9 @@ def main():
                 descr = args.desc
 
         print('@@ Creating options')
-<<<<<<< HEAD
-        options = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
-
-        re = json.loads(UploadTorrent(options=options))
-=======
         OPTS_UP = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=args.desc, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
 
         re = json.loads(UploadTorrent(options=OPTS_UP))
->>>>>>> 7055ae7baf22bcc3a089083b3e6f56fe4df6f1ec
 
         hashhex = re['hash']
         torid = re['id']
