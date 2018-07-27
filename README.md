@@ -23,21 +23,21 @@ python setup.py install
 (Requests and Beautifulsoup4 will be installed automatically if you use `pip` command)
 
 ### Usage
-Using cmd (Upload):
+**Using cmd (Upload)**:
 ```bat
 nyaav2 -m upload -U USER -P PASS -i myfile.torrent --category anime_raw --description "My test upload using pyNyaav2" --anonymous --hidden
 ```
 
 Will upload myfile.torrent with description plus upload it as Anonymous and Hidden.
 
-Using cmd (Search):
+**Using cmd (Search)**:
 ```
 nyaav2 -m search -U USER -P PASS -i "hataraku saibou" --category all
 ```
 
 Will search "hataraku saibou" in all category
 
-Full help (cmd: `nyaav2 -h`):
+**Full help (cmd: `nyaav2 -h`)**:
 ```bat
 usage: nyaav2 [-h] --mode [{search,upload}] --username USER --password PASSW
               --input TORKEY
@@ -46,7 +46,7 @@ usage: nyaav2 [-h] --mode [{search,upload}] --username USER --password PASSW
               [--anonymous] [--hidden] [--remake] [--trusted]
 ```
 
-As a module (Upload):
+**As a module (Upload)**:
 ```py
 import pyNyaav2
 
@@ -67,7 +67,7 @@ ret = pyNyaav2.UploadTorrent(opts)
 print(ret)
 ```
 
-As a module (Search):
+**As a module (Search)**:
 ```py
 import pyNyaav2
 
@@ -81,4 +81,4 @@ ret = pyNyaav2.SearchTorrent(username=UNAME, password=PASSW, keyword=KEYWORD, ca
 
 print(ret[0])
 ```
-Category List: https://gist.github.com/noaione/2a74eb362588dcc4edc8684e9c270a8c
+**Category List**: https://gist.github.com/noaione/2a74eb362588dcc4edc8684e9c270a8c
