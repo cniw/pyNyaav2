@@ -49,6 +49,7 @@ def SearchTorrent(username=None, password=None, keyword=None, category='all', pa
         filesize = str(r2j['filesize']/1024/1024)[:5]+' MiB'
         torhash = r2j['hash_hex']
         is_trusted = r2j['is_trusted']
+        is_remake = r2j['is_remake']
 
         categoryN = '{} - {}'.format(r2j['main_category'], r2j['sub_category'])
         categoryID = '{}_{}'.format(r2j['main_category_id'], r2j['sub_category_id'])
@@ -74,7 +75,8 @@ def SearchTorrent(username=None, password=None, keyword=None, category='all', pa
             'download_link': dl_link,
             'magnet_link': magnet,
             'url': url,
-            'is_trusted': is_trusted
+            'is_trusted': is_trusted,
+            'is_remake': is_remake
         }
         torrents.append(querryCollect)
 
