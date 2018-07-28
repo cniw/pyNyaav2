@@ -1,6 +1,6 @@
 # pyNyaav2 - A Nyaa v2 API wrapper.
 #### Easy to use API wrapper for anyone.
-[![License](https://img.shields.io/github/license/noaione/pyNyaav2.svg?style=for-the-badge)](https://github.com/noaione/pyNyaav2/blob/master/LICENSE.md)
+![Python Version](https://img.shields.io/badge/python-3.5,%203.6,%203.7-blue.svg?longCache=true&style=for-the-badge) [![License](https://img.shields.io/github/license/noaione/pyNyaav2.svg?style=for-the-badge)](https://github.com/noaione/pyNyaav2/blob/master/LICENSE.md) ![Requirements](https://img.shields.io/requires/github/noaione/pyNyaav2.svg?style=for-the-badge)
 
 ### Installation
 ```bat
