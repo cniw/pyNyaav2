@@ -70,7 +70,7 @@ def main():
                 descr = args.desc
 
         print('@@ Creating options')
-        OPTS_UP = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=args.desc, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
+        OPTS_UP = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
         
         print('@@ Uploading torrents')
         re = json.loads(UploadTorrent(options=OPTS_UP))
