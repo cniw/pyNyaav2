@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: UTF-8 -*-
-from .common import INFO_URL, Nyaav2Exception, SEARCH_URL_NYAA, CATEGORY_LIST, UPLOAD_V2_URL
+from pyNyaav2.common import INFO_URL, Nyaav2Exception, SEARCH_URL_NYAA, CATEGORY_LIST, UPLOAD_V2_URL
 from os.path import splitext, dirname
 from bs4 import BeautifulSoup
 import requests
