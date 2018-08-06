@@ -1,18 +1,21 @@
+#!/usr/bin/env python
+# -*- coding: UTF-8 -*-
 import argparse
 import os, sys
 import json
 
-from .common import Nyaav2Exception
-from .upload import set_opts, UploadTorrent
-from .search import SearchTorrent
+from pyNyaav2.common import Nyaav2Exception
+from pyNyaav2.nyaav2 import SearchTorrent, UploadTorrent, set_opts
+from pyNyaav2.sukebeiv2 import SearchSukebeiTorrent, UploadSukebeiTorrent, set_opts_sukebei
 
 def main():
     parser = argparse.ArgumentParser(prog='nyaav2')
     parser.add_argument('--mode', '-m', required=True, default='search', const='search', nargs='?', choices=['search', 'upload'])
+    parser.add_argument('--sukebei', '-nsfw', required=False, dest='store_true', help='Search or upload to sukebei')
     parser.add_argument('--username', '-U' , required=True, dest='user',help='Your username')
     parser.add_argument('--password', '-P', required=True, dest='passw', help='Your password')
     parser.add_argument('--input', '-i', dest='torkey', required=True, action='store', default=None, help='Keyword to be search')
-    parser.add_argument('--category', dest='cname', choices=['all', 'amv', 'anime_eng', 'anime_non-eng', 'anime_raw', 'audio_lossless', 'audio_lossy', 'books_eng', 'books_non-eng', 'books_raw', 'la_eng', 'la_idolpv', 'la_non-eng', 'la_raw', 'pics_graphics', 'pics_photos', 'sw_apps', 'sw_games'], required=False, action='store', default='anime_eng', help='Torrent category (default: anime_eng)')
+    parser.add_argument('--category', dest='cname', choices=['all', 'anime', 'amv', 'anime_eng', 'anime_non-eng', 'anime_raw', 'audio', 'audio_lossless', 'audio_lossy', 'books', 'books_eng', 'books_non-eng', 'books_raw', 'live_action', 'la_eng', 'la_idolpv', 'la_non-eng', 'la_raw', 'pictures', 'pics_graphics', 'pics_photos', 'software', 'sw_apps', 'sw_games', 'art', 'art_anime', 'art_doujinshi', 'art_gamees', 'art_manga', 'art_pics', 'real_life', 'real_pics', 'real_videos'], required=False, action='store', default=None, help='Torrent category (sukebei start with \'art\' choices)')
 
     uploadmode = parser.add_argument_group('Upload Arguments')
     uploadmode.add_argument('--name', dest='name', required=False, action='store', default=None, help='Torrent name')
@@ -24,16 +27,30 @@ def main():
     uploadmode.add_argument('--trusted', dest='is_trusted', action='store_true', required=False, default=False, help='Set torrent as trusted torrent')
 
     args = parser.parse_args()
+    if args.cname != 'all':
+        if args.sukebei:
+            categorylist = ['art', 'art_anime', 'art_doujinshi', 'art_games', 'art_manga', 'art_pics', 'real_life', 'real_pics', 'real_videos']
+            if not args.cname in categorylist:
+                raise Nyaav2Exception('main: you use sukebei mode but not using sukebei only categories')
+            else:
+                pass
+        if not args.sukebei:
+            categorylist = ['anime', 'amv', 'anime_eng', 'anime_non-eng', 'anime_raw', 'audio', 'audio_lossless', 'audio_lossy', 'books', 'books_eng', 'books_non-eng', 'books_raw', 'live_action', 'la_eng', 'la_idolpv', 'la_non-eng', 'la_raw', 'pictures', 'pics_graphics', 'pics_photos', 'software', 'sw_apps', 'sw_games']
+            if not args.cname in categorylist:
+                raise Nyaav2Exception('main: you use non-sukebei mode but not using non-sukebei only categories')
 
     if args.mode == 'search':
         print('@@ Searching torrent\n')
-        search = SearchTorrent(args.user, args.passw, args.torkey, args.cname)
-        print('@@ Torrent searced, now parsing\n@@ Total: {}'.format(str(len(search))))
+        if args.sukebei:
+            search = SearchSukebeiTorrent(username=args.user, password=args.passw, keyword=args.torkey, category=args.cname)
+        else:
+            search = SearchTorrent(username=args.user, password=args.passw, keyword=args.torkey, category=args.cname)
+        print('@@ Torrent searced, now parsing\n@@ Total Match: {}'.format(str(len(search))))
         print('## Will be showing until 5 torrent only')
         limit = 0
         parsedQuery = []
-        while limit < 5:
-            if not limit < 5:
+        while True:
+            if limit < 5:
                 break
             for query in search:
                 NAME = query['name']
@@ -47,7 +64,10 @@ def main():
                 SIZE = query['filesize']
                 CATEG = query['category'] + ' (' + query['category_id'] + ')'
                 STATS = 'Seeders: {} || Leechers: {} || Completed: {}'.format(query['seeders'], query['leechers'], query['completed'])
-                DLLINK = 'https://nyaa.si{}'.format(query['download_link'])
+                if not args.sukebei:
+                    DLLINK = 'https://nyaa.si{}'.format(query['download_link'])
+                else:
+                    DLLINK = 'https://sukebei.nyaa.si{}'.format(query['download_link'])
                 TORURL = query['url']
                 TORHASH = query['hash']
 
@@ -70,10 +90,16 @@ def main():
                 descr = args.desc
 
         print('@@ Creating options')
-        OPTS_UP = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
+        if args.sukebei:
+            OPTS_UP = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
+        else:
+            OPTS_UP = set_opts_sukebei(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
         
         print('@@ Uploading torrents')
-        re = json.loads(UploadTorrent(options=OPTS_UP))
+        if args.sukebei:
+            re = json.loads(UploadTorrent(options=OPTS_UP))
+        else:
+            re = json.loads(UploadSukebeiTorrent(options=OPTS_UP))
 
         hashhex = re['hash']
         torid = re['id']

@@ -22,6 +22,7 @@ python setup.py install
 
 (Requests and Beautifulsoup4 will be installed automatically if you use `pip` command)
 
+
 ### Usage
 **Using cmd (Upload)**:
 ```bat
@@ -29,6 +30,7 @@ nyaav2 -m upload -U USER -P PASS -i myfile.torrent --category anime_raw --descri
 ```
 
 Will upload myfile.torrent with description plus upload it as Anonymous and Hidden.
+#### For Sukebei, put --sukebei/-nsfw
 
 **Using cmd (Search)**:
 ```
@@ -36,12 +38,13 @@ nyaav2 -m search -U USER -P PASS -i "hataraku saibou" --category all
 ```
 
 Will search "hataraku saibou" in all category
+#### For Sukebei, put --sukebei/-nsfw
 
 **Full help (cmd: `nyaav2 -h`)**:
 ```bat
-usage: nyaav2 [-h] --mode [{search,upload}] --username USER --password PASSW
+usage: nyaav2 [-h] --mode [{search,upload}] --sukebei/-nsfw --username USER --password PASSW
               --input TORKEY
-              [--category {all,amv,anime_eng,anime_non-eng,anime_raw,audio_lossless,audio_lossy,books_eng,books_non-eng,books_raw,la_eng,la_idolpv,la_non-eng,la_raw,pics_graphics,pics_photos,sw_apps,sw_games}]
+              [--category {all,anime,amv,anime_eng,anime_non-eng,anime_raw,audio,audio_lossless,audio_lossy,books,books_eng,books_non-eng,books_raw,live_action,la_eng,la_idolpv,la_non-eng,la_raw,pictures,pics_graphics,pics_photos,softwaree,sw_apps,sw_games,art,art_anime,art_doujinshi,art_games,art_manga,art_pics,real_life,real_pics,real_videos}]
               [--name NAME] [--information INFO] [--description DESC]
               [--anonymous] [--hidden] [--remake] [--trusted]
 ```
@@ -59,9 +62,10 @@ description = """
 
 Note: This is an automated upload by [pyNyaav2](https://github.com/noaione/pyNyaav2)
 """
-
+#for Sukebei, change set_opts to set_opts_sukebei
 opts = pyNyaav2.set_opts(username=UNAME, password=PASSW, torrent='mystuff.torrent', category=CATEG, name='mystuff', information='https://noaione.github.io', description=description, anonymous=True, hidden=False, complete=False, remake=False, trusted=False)
 
+#for Sukebei, change UploadTorrent to UploadSukebeiTorrent
 ret = pyNyaav2.UploadTorrent(opts)
 
 print(ret)
@@ -77,6 +81,7 @@ KEYWORD = 'overlord s3'
 CATEG = 1_2 #This is Anime English-translated, you can also type 'anime_eng', scroll to the very bottom for reference
 PAGE = 1
 
+#for Sukebei, change SearchTorrent to SearchSukebeiTorrent
 ret = pyNyaav2.SearchTorrent(username=UNAME, password=PASSW, keyword=KEYWORD, category=CATEG, page=PAGE)
 
 print(ret[0])
