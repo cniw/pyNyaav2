@@ -8,6 +8,9 @@ INFO_URL = f'{BASE_APIURL}/info'
 UPLOAD_V2_URL_SUKEBEI = f'{BASE_SUKEBEIAPI}/v2/upload'
 INFO_URL_SUKEBEI = f'{BASE_SUKEBEIAPI}/v2/upload'
 
+class Nyaav2Exception(Exception):
+    __module__ = Exception.__module__
+
 def CATEGORY_LIST(category, mode):
     mode = mode.lower()
     if mode != 'nyaa' or mode != 'sukebei':
@@ -72,5 +75,3 @@ def SEARCH_URL_SUKEBEI(query, category=CATEGORY_LIST('all', 'sukebei'), page=1):
     SEARCH_URL = f'{BASE_SUKEBEI}/?f=0&c={category}&q={query}&p={str(page)}'
     return SEARCH_URL
 
-class Nyaav2Exception(Exception):
-    __module__ = Exception.__module__
