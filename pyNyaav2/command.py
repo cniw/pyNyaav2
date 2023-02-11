@@ -82,19 +82,18 @@ def main():
         if os.path.splitext(args.torkey)[1] != '.torrent':
             raise Nyaav2Exception('Upload mode choosen but input argument not a torrent files')
 
-        if args.desc is not None:
+        descr = args.desc
+        if descr is not None:
             if os.path.isfile(args.desc):
                 with open(args.desc, 'rb') as fdesc:
                     descr = str(fdesc.read())
-            else:
-                descr = args.desc
 
         print('@@ Creating options')
         if not args.sukebei:
             OPTS_UP = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
         else:
             OPTS_UP = set_opts_sukebei(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
-        
+
         print('@@ Uploading torrents')
         if not args.sukebei:
             re = json.loads(UploadTorrent(options=OPTS_UP))
@@ -108,7 +107,7 @@ def main():
 
         text = f'!! Torrent Successfully Uploaded\n@ Name: {name}\n@ ID: {torid}\n@ URL: {url}\n@ Torrent hash: {hashhex}'
         print(text)
-        
+
 
 if __name__=='__main__':
     main()
