@@ -13,7 +13,7 @@ class Nyaav2Exception(Exception):
 
 def CATEGORY_LIST(category, mode):
     mode = mode.lower()
-    if mode != 'nyaa' or mode != 'sukebei':
+    if mode != 'nyaa' and mode != 'sukebei':
         raise Nyaav2Exception('common: CATEGORY_LIST: mode can only be \'nyaa\' or \'sukebei\'')
     if mode == 'nyaa':
         category_type = {
