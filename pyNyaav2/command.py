@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 import argparse
-import os, sys
+import os
 import json
 
 from pyNyaav2.common import Nyaav2Exception
@@ -11,7 +11,7 @@ from pyNyaav2.sukebeiv2 import SearchSukebeiTorrent, UploadSukebeiTorrent, set_o
 def main():
     parser = argparse.ArgumentParser(prog='nyaav2')
     parser.add_argument('--mode', '-m', required=True, default='search', const='search', nargs='?', choices=['search', 'upload'])
-    parser.add_argument('--sukebei', '-nsfw', required=False, dest='store_true', help='Search or upload to sukebei')
+    parser.add_argument('--sukebei', '-nsfw', dest='sukebei', required=False, action='store_true', help='Search or upload to sukebei')
     parser.add_argument('--username', '-U' , required=True, dest='user',help='Your username')
     parser.add_argument('--password', '-P', required=True, dest='passw', help='Your password')
     parser.add_argument('--input', '-i', dest='torkey', required=True, action='store', default=None, help='Keyword to be search')
@@ -34,7 +34,7 @@ def main():
                 raise Nyaav2Exception('main: you use sukebei mode but not using sukebei only categories')
             else:
                 pass
-        if not args.sukebei:
+        else:
             categorylist = ['anime', 'amv', 'anime_eng', 'anime_non-eng', 'anime_raw', 'audio', 'audio_lossless', 'audio_lossy', 'books', 'books_eng', 'books_non-eng', 'books_raw', 'live_action', 'la_eng', 'la_idolpv', 'la_non-eng', 'la_raw', 'pictures', 'pics_graphics', 'pics_photos', 'software', 'sw_apps', 'sw_games']
             if not args.cname in categorylist:
                 raise Nyaav2Exception('main: you use non-sukebei mode but not using non-sukebei only categories')
@@ -82,21 +82,20 @@ def main():
         if os.path.splitext(args.torkey)[1] != '.torrent':
             raise Nyaav2Exception('Upload mode choosen but input argument not a torrent files')
 
-        if args.desc is not None:
+        descr = args.desc
+        if descr is not None:
             if os.path.isfile(args.desc):
                 with open(args.desc, 'rb') as fdesc:
                     descr = str(fdesc.read())
-            else:
-                descr = args.desc
 
         print('@@ Creating options')
-        if args.sukebei:
+        if not args.sukebei:
             OPTS_UP = set_opts(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
         else:
             OPTS_UP = set_opts_sukebei(username=args.user, password=args.passw, torrent=args.torkey, category=args.cname, name=args.name, information=args.info, description=descr, anonymous=args.is_anon, hidden=args.is_hidden, remake=args.is_remake, trusted=args.is_trusted)
-        
+
         print('@@ Uploading torrents')
-        if args.sukebei:
+        if not args.sukebei:
             re = json.loads(UploadTorrent(options=OPTS_UP))
         else:
             re = json.loads(UploadSukebeiTorrent(options=OPTS_UP))
@@ -108,7 +107,7 @@ def main():
 
         text = f'!! Torrent Successfully Uploaded\n@ Name: {name}\n@ ID: {torid}\n@ URL: {url}\n@ Torrent hash: {hashhex}'
         print(text)
-        
+
 
 if __name__=='__main__':
     main()
